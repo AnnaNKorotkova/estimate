@@ -14,8 +14,8 @@ import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 
-import static ru.topjava.estimate.Util.ValidationUtil.checkNotFoundWithId;
-import static ru.topjava.estimate.Util.ValidationUtil.checkNotFound;
+import static ru.topjava.estimate.util.ValidationUtil.checkNotFoundWithId;
+import static ru.topjava.estimate.util.ValidationUtil.checkNotFound;
 
 @Service
 @Slf4j

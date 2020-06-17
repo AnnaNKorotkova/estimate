@@ -1,4 +1,4 @@
-package ru.topjava.estimate.Util;
+package ru.topjava.estimate.util;
 
 import ru.topjava.estimate.Exeption.IllegalRequestDataException;
 import ru.topjava.estimate.Exeption.NotFoundException;

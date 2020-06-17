@@ -10,7 +10,7 @@ import ru.topjava.estimate.service.DishService;
 
 import java.util.List;
 
-import static ru.topjava.estimate.Util.ValidationUtil.checkNotFoundWithId;
+import static ru.topjava.estimate.util.ValidationUtil.checkNotFoundWithId;
 
 @Service
 @Slf4j

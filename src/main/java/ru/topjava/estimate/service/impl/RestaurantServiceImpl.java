@@ -11,7 +11,7 @@ import ru.topjava.estimate.service.RestaurantService;
 import java.util.Collections;
 import java.util.List;
 
-import static ru.topjava.estimate.Util.ValidationUtil.*;
+import static ru.topjava.estimate.util.ValidationUtil.*;
 
 @Service
 @Slf4j
