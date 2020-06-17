@@ -1,24 +1,24 @@
 package ru.topjava.estimate.model;
 
-
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.javamoney.moneta.Money;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import java.util.Set;
 
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
+@Table(name = "dish")
 public class Dish extends AbstractNamedEntity {
 
-    private final Money price;
+    @OneToMany(mappedBy = "dish", cascade = CascadeType.ALL)
+    private Set<Price> dishPrice;
 
-    public Dish(Long id, String name, Money price) {
+    public Dish(Long id, String name) {
         super(id, name);
-        this.price = price;
     }
 }

@@ -1,21 +1,25 @@
 package ru.topjava.estimate.model;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
+import javax.persistence.*;
 import java.util.Set;
 
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
+@Table(name = "restaurant")
 public class Restaurant extends AbstractNamedEntity {
-    private final Set<Lunch> lunches;
 
-    public Restaurant(Long id, String name, Set<Lunch> lunches) {
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
+    private Set<Price> restaurantPrice;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
+    private Set<Vote> votes;
+
+
+    public Restaurant(Long id, String name) {
         super(id, name);
-        this.lunches = lunches;
     }
 }

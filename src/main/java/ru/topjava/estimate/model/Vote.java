@@ -1,20 +1,41 @@
 package ru.topjava.estimate.model;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
-import javax.persistence.Entity;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
+@Data
+@Table(name = "vote", uniqueConstraints = {@UniqueConstraint(columnNames = {"date", "user_id", "restaurant_id"}, name = "vote_unique_date_user_id_restaurant_id_idx")})
 public class Vote extends AbstractBaseEntity {
-    private final Long userId;
 
-    public Vote(Long id, Long userId) {
+    @Column(name = "date", nullable = false)
+    @NotNull
+    private final LocalDate date;
+
+    @Column(name = "time", nullable = false)
+    @NotNull
+    private final LocalTime time;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private User user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "restaurant_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Restaurant restaurant;
+
+    public Vote(Long id, LocalDate date, LocalTime time) {
         super(id);
-        this.userId = userId;
+        this.date = date;
+        this.time = time;
     }
 }

@@ -1,19 +1,20 @@
 package ru.topjava.estimate.model;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.Hibernate;
 import org.springframework.util.Assert;
+import ru.topjava.estimate.HasId;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 
 @MappedSuperclass
 @Access(AccessType.FIELD)
+@NoArgsConstructor
 @Setter
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-public abstract class AbstractBaseEntity {
+public abstract class AbstractBaseEntity implements HasId{
     public static final int START_SEQ = 100_000_000;
 
     @Id
