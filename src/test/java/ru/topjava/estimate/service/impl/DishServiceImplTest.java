@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import ru.topjava.estimate.model.Dish;
+import ru.topjava.estimate.repository.DishRepository;
+import ru.topjava.estimate.service.DishService;
 
 import static ru.topjava.estimate.DishTestData.getNewDish;
 
@@ -15,7 +17,10 @@ import static ru.topjava.estimate.DishTestData.getNewDish;
 class DishServiceImplTest {
 
     @Autowired
-    private DishServiceImpl service;
+    private DishService service;
+
+    @Autowired
+    private DishRepository repository;
 
     @Test
     void create() throws Exception {
@@ -24,8 +29,7 @@ class DishServiceImplTest {
         long newId = created.id();
         newDish.setId(newId);
         Assertions.assertEquals(newDish.getName(), created.getName());
-//        MEAL_MATCHER.assertMatch(created, newMeal);
-//        MEAL_MATCHER.assertMatch(service.get(newId, USER_ID), newMeal);
+
     }
 
 }
