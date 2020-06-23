@@ -3,7 +3,9 @@ package ru.topjava.estimate.service.impl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import ru.topjava.estimate.Exeption.NotFoundException;
 import ru.topjava.estimate.model.Restaurant;
 import ru.topjava.estimate.repository.RestaurantRepository;
 import ru.topjava.estimate.service.RestaurantService;
@@ -15,12 +17,14 @@ import static ru.topjava.estimate.util.ValidationUtil.*;
 
 @Service
 @Slf4j
+@Transactional(readOnly = true)
 public class RestaurantServiceImpl implements RestaurantService {
 
     @Autowired
     private RestaurantRepository restaurantRepository;
 
     @Override
+    @Transactional
     public Restaurant save(Restaurant restaurant) {
         Assert.notNull(restaurant, "restaurant must not be null");
         log.info("save restaurant {}", restaurant.getName());
@@ -28,22 +32,24 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Override
-    public void delete(Restaurant restaurant) {
-        Assert.notNull(restaurant, "restaurant must not be null");
-        log.info("delete restaurant {}", restaurant.getName());
-        restaurantRepository.delete(restaurant);
+    @Transactional
+    public void delete(Long id) {
+        Assert.notNull(id, "restaurant must not be null");
+        log.info("delete restaurant {}", id);
+        restaurantRepository.deleteById(id);
     }
 
     @Override
-    public Restaurant getWithVotes(long id) {
+    public Restaurant getWithVotes(Long id) {
         Restaurant restaurant = checkNotFoundWithId(restaurantRepository.getWithVotes(id), id);
         log.info("getWithVotes restaurant {}", restaurant.getName());
         return restaurant;
     }
 
     @Override
-    public Restaurant get(long id) {
-        Restaurant restaurant =  checkNotFoundWithId(restaurantRepository.getOne(id), id);
+    @Transactional
+    public Restaurant get(Long id) {
+        Restaurant restaurant =  restaurantRepository.findById(id).orElseThrow(NotFoundException::new);
         log.info("get restaurant {}", restaurant.getName());
         return restaurant;
     }

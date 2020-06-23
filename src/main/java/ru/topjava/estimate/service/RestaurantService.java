@@ -8,11 +8,11 @@ public interface RestaurantService {
 
     Restaurant save(Restaurant restaurant);
 
-    void delete(Restaurant restaurant);
+    void delete(Long id);
 
-    Restaurant getWithVotes(long id);
+    Restaurant getWithVotes(Long id);
 
-    Restaurant get(long id);
+    Restaurant get(Long id);
 
     List<Restaurant> getAll();
 

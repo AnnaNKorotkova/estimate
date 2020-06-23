@@ -1,21 +1,22 @@
 package ru.topjava.estimate.model;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Set;
 
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
 @Table(name = "dish")
 public class Dish extends AbstractNamedEntity {
 
-    @OneToMany(mappedBy = "dish", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "dish", fetch = FetchType.LAZY, orphanRemoval = true)
+    @Cascade(value = org.hibernate.annotations.CascadeType.ALL)
     private Set<Price> dishPrice;
 
     public Dish(Long id, String name) {

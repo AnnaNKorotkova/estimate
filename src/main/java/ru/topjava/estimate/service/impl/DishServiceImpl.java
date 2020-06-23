@@ -1,25 +1,29 @@
 package ru.topjava.estimate.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import ru.topjava.estimate.Exeption.NotFoundException;
 import ru.topjava.estimate.model.Dish;
 import ru.topjava.estimate.repository.DishRepository;
 import ru.topjava.estimate.service.DishService;
 
 import java.util.List;
 
-import static ru.topjava.estimate.util.ValidationUtil.checkNotFoundWithId;
-
 @Service
 @Slf4j
+@Transactional(readOnly = true)
 public class DishServiceImpl implements DishService {
 
-    @Autowired
-    private DishRepository dishRepository;
+    private final DishRepository dishRepository;
+
+    public DishServiceImpl(DishRepository dishRepository) {
+        this.dishRepository = dishRepository;
+    }
 
     @Override
+    @Transactional
     public Dish save(Dish dish) {
         Assert.notNull(dish, "dish must not be null");
         log.info("save dish {}", dish.getName());
@@ -27,22 +31,24 @@ public class DishServiceImpl implements DishService {
     }
 
     @Override
-    public void delete(Dish dish) {
-        Assert.notNull(dish, "dish must not be null");
-        log.info("delete dish {}", dish.getName());
-        dishRepository.delete(dish);
+    @Transactional
+    public void delete(Long id) {
+        Assert.notNull(id, "dish id must not be null");
+        log.info("delete dish {}", id);
+        dishRepository.deleteById(id);
     }
 
     @Override
-    public Dish get(long id) {
-        Dish dish = checkNotFoundWithId(dishRepository.getOne(id), id);
+    @Transactional
+    public Dish get(Long id) {
+        Dish dish = dishRepository.findById(id).orElseThrow(NotFoundException::new);
         log.info("get dish {}", dish.getName());
         return dish;
     }
 
     @Override
     public List<Dish> getAll() {
-        List<Dish> list = dishRepository.findAll();
+        List<Dish> list = dishRepository.getAll();
         log.info("getAll, find {} rows", list.size());
         return list;
     }

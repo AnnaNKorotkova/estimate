@@ -3,7 +3,9 @@ package ru.topjava.estimate.service.impl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import ru.topjava.estimate.Exeption.NotFoundException;
 import ru.topjava.estimate.model.Dish;
 import ru.topjava.estimate.model.Price;
 import ru.topjava.estimate.model.Restaurant;
@@ -19,12 +21,14 @@ import static ru.topjava.estimate.util.ValidationUtil.checkNotFoundWithId;
 
 @Service
 @Slf4j
+@Transactional(readOnly = true)
 public class PriceServiceImpl implements PriceService {
 
     @Autowired
     private PriceRepository priceRepository;
 
     @Override
+    @Transactional
     public Price save(Price price) {
         Assert.notNull(price, "price must not be null");
         log.info("save price {}", price.getId());
@@ -32,17 +36,25 @@ public class PriceServiceImpl implements PriceService {
     }
 
     @Override
-    public void delete(Price price) {
-        Assert.notNull(price, "price must not be null");
-        log.info("delete price {}", price.getId());
-        priceRepository.delete(price);
+    @Transactional
+    public void delete(Long id) {
+        Assert.notNull(id, "price id must not be null");
+        log.info("delete price {}", id);
+        priceRepository.deleteById(id);
     }
 
     @Override
-    public Price get(long id) {
-        Price price = checkNotFoundWithId(priceRepository.getOne(id), id);
+    public Price get(Long id) {
+        Price price = priceRepository.findById(id).orElseThrow(NotFoundException::new);
         log.info("get price {}", price.getId());
         return price;
+    }
+
+    @Override
+    public List<Price> getAll() {
+        List<Price> list = priceRepository.findAll();
+        log.info("findAll(), found {} rows", list.size());
+        return list;
     }
 
     @Override

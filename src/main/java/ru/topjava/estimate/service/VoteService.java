@@ -11,9 +11,9 @@ public interface VoteService {
 
     Vote save(Vote vote);
 
-    void delete(Vote vote);
+    void delete(Long id);
 
-    Vote get(long id);
+    Vote get(Long id);
 
     List<Vote> getAll();
 

@@ -11,9 +11,11 @@ public interface PriceService {
 
     Price save(Price price);
 
-    void delete(Price price);
+    void delete(Long id);
 
-    Price get(long id);
+    Price get(Long id);
+
+    List<Price> getAll();
 
     Price findByDateAndDishAndRestaurant(LocalDate date, Dish dish, Restaurant restaurant);
 

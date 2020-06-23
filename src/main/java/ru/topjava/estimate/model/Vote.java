@@ -1,6 +1,9 @@
 package ru.topjava.estimate.model;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -11,17 +14,19 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Entity
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 @Table(name = "vote", uniqueConstraints = {@UniqueConstraint(columnNames = {"date", "user_id", "restaurant_id"}, name = "vote_unique_date_user_id_restaurant_id_idx")})
 public class Vote extends AbstractBaseEntity {
 
     @Column(name = "date", nullable = false)
     @NotNull
-    private final LocalDate date;
+    private  LocalDate date;
 
     @Column(name = "time", nullable = false)
     @NotNull
-    private final LocalTime time;
+    private  LocalTime time;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)

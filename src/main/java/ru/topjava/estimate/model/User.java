@@ -1,9 +1,9 @@
 package ru.topjava.estimate.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -13,7 +13,9 @@ import java.util.EnumSet;
 import java.util.Set;
 
 @Entity
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 @Table(name = "user", uniqueConstraints = {@UniqueConstraint(columnNames = {"email"}, name = "users_unique_email_idx")})
 public class User extends AbstractNamedEntity {
 
@@ -21,26 +23,35 @@ public class User extends AbstractNamedEntity {
     @Email
     @NotBlank
     @Size(max = 100)
-    private final String email;
+    private String email;
 
     @Column(name = "password", nullable = false)
     @NotBlank
     @Size(min = 5, max = 100)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private final String password;
+    private String password;
 
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    //    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @Enumerated(EnumType.STRING)
     @CollectionTable(name = "role", joinColumns = @JoinColumn(name = "user_id"),
             uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "role"}, name = "user_roles_unique_idx")})
     @Column(name = "role")
     @ElementCollection(fetch = FetchType.EAGER)
-    private final Set<Role> roles;
+    private Set<Role> roles;
 
-    public User(Long id, String name, String email, String password, Role role, Role... roles) {
+    public User(@Email @NotBlank @Size(max = 100) String email, @NotBlank @Size(min = 5, max = 100) String password) {
+        this.email = email;
+        this.password = password;
+    }
+
+    public User(Long id, String name, String email, String password) {
         super(id, name);
         this.email = email;
         this.password = password;
+    }
+
+    public User(Long id, String name, String email, String password, Role role, Role... roles) {
+        this(id, name, email, password);
         this.roles = EnumSet.of(role, roles);
     }
 }

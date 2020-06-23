@@ -4,13 +4,14 @@ import ru.topjava.estimate.model.Dish;
 
 import java.util.List;
 
+
 public interface DishService {
 
     Dish save(Dish dish);
 
-    void delete (Dish dish);
+    void delete (Long id);
 
-    Dish get (long id);
+    Dish get (Long id);
 
     List<Dish> getAll() ;
 
