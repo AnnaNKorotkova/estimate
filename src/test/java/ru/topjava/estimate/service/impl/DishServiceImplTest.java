@@ -9,7 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import ru.topjava.estimate.Exeption.NotFoundException;
+import ru.topjava.estimate.exeption.NotFoundException;
 import ru.topjava.estimate.model.Dish;
 import ru.topjava.estimate.service.DishService;
 

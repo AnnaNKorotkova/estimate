@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import ru.topjava.estimate.Exeption.NotFoundException;
+import ru.topjava.estimate.exeption.NotFoundException;
 import ru.topjava.estimate.model.User;
 import ru.topjava.estimate.repository.UserRepository;
 import ru.topjava.estimate.service.UserService;
@@ -41,6 +41,13 @@ public class UserServiceImpl implements UserService {
     public User get(Long id) {
         User user =  userRepository.findById(id).orElseThrow(NotFoundException::new);
         log.info("get user {}", id);
+        return user;
+    }
+
+    @Override
+    public User findByEmail(String email) {
+        User user = userRepository.findUserByEmail(email);
+        log.info("find User By Email {}", email);
         return user;
     }
 

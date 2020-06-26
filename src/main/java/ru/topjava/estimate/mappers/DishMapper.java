@@ -8,8 +8,8 @@ import ru.topjava.estimate.to.DishTo;
 @Mapper
 public interface DishMapper {
 
-        DishMapper INSTANCE = Mappers.getMapper(DishMapper.class);
+    DishMapper INSTANCE = Mappers.getMapper(DishMapper.class);
 
-        DishTo toDTO(Dish dish);
+    DishTo toDTO(Dish dish);
 
 }

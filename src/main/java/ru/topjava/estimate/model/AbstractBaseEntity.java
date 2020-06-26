@@ -12,8 +12,6 @@ import javax.persistence.*;
 @MappedSuperclass
 @Access(AccessType.FIELD)
 @NoArgsConstructor
-@Setter
-@Getter
 public abstract class AbstractBaseEntity implements HasId{
     public static final int START_SEQ = 100_000_000;
 
@@ -29,6 +27,17 @@ public abstract class AbstractBaseEntity implements HasId{
 
     protected AbstractBaseEntity(Long id) {
         this.id = id;
+    }
+
+
+    @Override
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    @Override
+    public Long getId() {
+        return id;
     }
 
     @Override

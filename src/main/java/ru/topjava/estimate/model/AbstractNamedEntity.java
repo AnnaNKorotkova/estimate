@@ -1,5 +1,6 @@
 package ru.topjava.estimate.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,6 +17,7 @@ import javax.validation.constraints.Size;
 @Setter
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
 public abstract class AbstractNamedEntity extends AbstractBaseEntity {
 
     @NotBlank

@@ -1,9 +1,6 @@
 package ru.topjava.estimate.model;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -42,5 +39,13 @@ public class Vote extends AbstractBaseEntity {
         super(id);
         this.date = date;
         this.time = time;
+    }
+
+    public Vote(Long id, LocalDate date, LocalTime time, User user, Restaurant restaurant) {
+        super(id);
+        this.date = date;
+        this.time = time;
+        this.user = user;
+        this.restaurant = restaurant;
     }
 }

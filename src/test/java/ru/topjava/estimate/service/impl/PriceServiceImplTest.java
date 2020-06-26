@@ -10,7 +10,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
-import ru.topjava.estimate.Exeption.NotFoundException;
+import ru.topjava.estimate.exeption.NotFoundException;
 import ru.topjava.estimate.model.Price;
 import ru.topjava.estimate.service.DishService;
 import ru.topjava.estimate.service.PriceService;

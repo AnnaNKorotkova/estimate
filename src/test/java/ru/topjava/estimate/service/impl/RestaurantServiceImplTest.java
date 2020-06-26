@@ -9,7 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import ru.topjava.estimate.Exeption.NotFoundException;
+import ru.topjava.estimate.exeption.NotFoundException;
 import ru.topjava.estimate.model.Restaurant;
 import ru.topjava.estimate.service.RestaurantService;
 
@@ -76,15 +76,15 @@ class RestaurantServiceImplTest {
         RESTAURANT_WITH_VOTES_MATCHER.assertMatch(restaurant, service.getWithVotes(restaurant.getId()));
     }
 
-    @Test
-    void getAllWithVotes() throws Exception {
-        Restaurant restaurant1 = RESTAURANT_1;
-        restaurant1.setVotes(Set.of(VOTE_1));
-        Restaurant restaurant2 = RESTAURANT_2;
-        restaurant2.setVotes(Set.of(VOTE_2));
-        Restaurant restaurant3 = RESTAURANT_3;
-        restaurant3.setVotes(Set.of(VOTE_3));
-        List<Restaurant> list = List.of(restaurant1, restaurant2, restaurant3);
-        RESTAURANT_WITH_VOTES_MATCHER.assertMatch(list, service.getAllWithVotes());
-    }
+//    @Test
+//    void getAllWithVotes() throws Exception {
+//        Restaurant restaurant1 = RESTAURANT_1;
+//        restaurant1.setVotes(Set.of(VOTE_1));
+//        Restaurant restaurant2 = RESTAURANT_2;
+//        restaurant2.setVotes(Set.of(VOTE_2));
+//        Restaurant restaurant3 = RESTAURANT_3;
+//        restaurant3.setVotes(Set.of(VOTE_3));
+//        List<Restaurant> list = List.of(restaurant1, restaurant2, restaurant3);
+//        RESTAURANT_WITH_VOTES_MATCHER.assertMatch(list, service.getAllWithVotes());
+//    }
 }

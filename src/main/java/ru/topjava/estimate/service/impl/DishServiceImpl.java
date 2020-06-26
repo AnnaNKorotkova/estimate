@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import ru.topjava.estimate.Exeption.NotFoundException;
+import ru.topjava.estimate.exeption.NotFoundException;
 import ru.topjava.estimate.model.Dish;
 import ru.topjava.estimate.repository.DishRepository;
 import ru.topjava.estimate.service.DishService;

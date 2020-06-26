@@ -15,6 +15,9 @@ public interface RestaurantService {
     Restaurant get(Long id);
 
     List<Restaurant> getAll();
+//
+//    List<Restaurant> getAllWithVotes();
+//
+//    List<Restaurant> getAllWithPriceAndVotes();
 
-    List<Restaurant> getAllWithVotes();
 }

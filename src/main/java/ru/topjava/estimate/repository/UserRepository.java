@@ -9,4 +9,6 @@ import ru.topjava.estimate.model.User;
 @Transactional(readOnly = true)
 public interface UserRepository extends JpaRepository<User, Long> {
 
+    User findUserByEmail(String email);
+
 }

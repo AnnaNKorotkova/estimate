@@ -1,7 +1,7 @@
 package ru.topjava.estimate.util;
 
-import ru.topjava.estimate.Exeption.IllegalRequestDataException;
-import ru.topjava.estimate.Exeption.NotFoundException;
+import ru.topjava.estimate.exeption.IllegalRequestDataException;
+import ru.topjava.estimate.exeption.NotFoundException;
 import ru.topjava.estimate.HasId;
 
 public class ValidationUtil {

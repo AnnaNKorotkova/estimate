@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import ru.topjava.estimate.Exeption.NotFoundException;
+import ru.topjava.estimate.exeption.NotFoundException;
 import ru.topjava.estimate.model.Restaurant;
 import ru.topjava.estimate.model.User;
 import ru.topjava.estimate.model.Vote;
@@ -16,7 +16,6 @@ import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 
-import static ru.topjava.estimate.util.ValidationUtil.checkNotFoundWithId;
 import static ru.topjava.estimate.util.ValidationUtil.checkNotFound;
 
 @Service
@@ -78,9 +77,8 @@ public class VoteServiceImpl implements VoteService {
     public Vote findByUserAndDate(User user, LocalDate date) {
         Assert.notNull(user, "user must not be null");
         Assert.notNull(date, "date must not be null");
-        Vote vote = checkNotFound(voteRepository.findByUserAndDate(user, date),
-                "user = " + user.getName() + ", date = " + date);
-        log.info("findByUserAndDate({}, {}), find {}", user.getName(), date, vote.getId());
+        Vote vote = voteRepository.findByUserAndDate(user, date);
+        log.info("findByUserAndDate({}, {}), find {}", user.getName(), date, vote == null ? null : vote.getId());
         return vote;
     }
 }
