@@ -6,9 +6,9 @@ import ru.topjava.estimate.model.Price;
 import ru.topjava.estimate.to.UserPriceTo;
 
 @Mapper
-public interface PriceMapper {
+public interface UserPriceMapper {
 
-        PriceMapper INSTANCE = Mappers.getMapper(PriceMapper.class);
+        UserPriceMapper INSTANCE = Mappers.getMapper(UserPriceMapper.class);
 
         @Mappings({
                 @Mapping(target = "date", dateFormat = "dd-MM-yyyy"),

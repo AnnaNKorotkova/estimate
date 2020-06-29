@@ -1,5 +1,6 @@
 package ru.topjava.estimate.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,7 +17,7 @@ import java.util.Set;
 public class Dish extends AbstractNamedEntity {
 
     @OneToMany(mappedBy = "dish", fetch = FetchType.LAZY, orphanRemoval = true)
-    @Cascade(value = org.hibernate.annotations.CascadeType.ALL)
+//    @Cascade(value = org.hibernate.annotations.CascadeType.ALL)
     private Set<Price> dishPrice;
 
     public Dish(Long id, String name) {

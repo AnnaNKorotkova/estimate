@@ -9,8 +9,9 @@ DELETE FROM USER;
 ALTER SEQUENCE global_seq RESTART WITH 100000000;
 
 INSERT INTO USER (name, email, password) VALUES
-('User', 'user@yandex.ru', '{noop}password'),       -- 100000000
-('Admin', 'admin@gmail.com', '{noop}admin');        -- 100000001
+-- ('User', 'user@yandex.ru', '{noop}password'),       -- 100000000
+('User', 'user@yandex.ru', '$2a$10$yfT3/Am4LrTFE1.tOYMYC.5aOnkP.rifYbtgrV.GCGBK4n6fFdJAO'),       -- 100000000
+('Admin', 'admin@gmail.com', '$2a$10$Xg5Ll9d2w4QZuGfB51zLKOyVNMUhnNVosXP1DQ/Qoo9VxE67nrHYu');        -- 100000001
 
 INSERT INTO ROLE (role, user_id) VALUES
 ('USER', 100000000),

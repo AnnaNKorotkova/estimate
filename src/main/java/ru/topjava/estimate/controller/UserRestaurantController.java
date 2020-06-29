@@ -1,12 +1,17 @@
 package ru.topjava.estimate.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import ru.topjava.estimate.mappers.RestaurantMapper;
 import ru.topjava.estimate.model.User;
 import ru.topjava.estimate.model.Vote;
+import ru.topjava.estimate.security.jwt.JwtUser;
 import ru.topjava.estimate.service.PriceService;
 import ru.topjava.estimate.service.RestaurantService;
+import ru.topjava.estimate.service.UserService;
 import ru.topjava.estimate.service.VoteService;
 import ru.topjava.estimate.to.BaseTo;
 import ru.topjava.estimate.to.UserRestaurantTo;
@@ -23,26 +28,30 @@ import java.util.stream.Collectors;
 public class UserRestaurantController {
     static final String URL = "/restaurants";
 
-    static LocalTime END_TIME_VOTING = LocalTime.parse("11:00:00");
+    @Value("${voting.end.time}")
+    private String votingEndTime;
 
     private final RestaurantService restaurantService;
     private final VoteService voteService;
     private final PriceService priceService;
+    private final UserService userService;
 
-    public UserRestaurantController(RestaurantService restaurantService, VoteService voteService, PriceService priceService) {
+    public UserRestaurantController(RestaurantService restaurantService, VoteService voteService, PriceService priceService, UserService userService) {
         this.restaurantService = restaurantService;
         this.voteService = voteService;
         this.priceService = priceService;
+        this.userService = userService;
     }
 
     @GetMapping
-    public List<UserRestaurantTo> getAll() {
-        return restaurantService.getAll()
+    public List<UserRestaurantTo> getAll(@AuthenticationPrincipal JwtUser authUser) {
+        List<UserRestaurantTo> list = restaurantService.getAll()
                 .stream()
-                .map(x -> x.setAndGetInstance(x, Set.copyOf(priceService.findAllByDateAndRestaurant(LocalDate.now(), x))))
+                .map(x -> x.setAndGetInstance(x, Set.copyOf(priceService.findAllByDateAndRestaurant(LocalDate.now().minusDays(3), x)))) // TODO delete minus
                 .map(RestaurantMapper.INSTANCE::toDTO)
-                .map(x -> x.setAndGetInstance(x, hasVoteToday(x)))
+                .map(x -> x.setAndGetInstance(x, hasVoteToday(x, authUser)))
                 .collect(Collectors.toList());
+        return list;
     }
 
 //    @GetMapping
@@ -60,22 +69,26 @@ public class UserRestaurantController {
 //    }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public String setVote(@RequestBody BaseTo restaurant) {
-        if (LocalTime.now().isBefore(END_TIME_VOTING)) {
+    public String setVote(@RequestBody BaseTo restaurant, @AuthenticationPrincipal JwtUser authUser) {
+        if (LocalTime.now().isBefore(LocalTime.parse(votingEndTime))) {
             LocalDate today = LocalDate.now();
-            User authUser = SecurityUtil.getAuthorizedUser();
-            Vote existing = voteService.findByUserAndDate(authUser, today);
+            User user = getFromJwtUser(authUser);
+            Vote existing = voteService.findByUserAndDate(user, today);
 
             Long id = existing == null ? null : existing.getId();
-            voteService.save(new Vote(id, LocalDate.now(), LocalTime.now(), SecurityUtil.getAuthorizedUser(),
+            Vote created = voteService.save(new Vote(id, today, LocalTime.now(), user,
                     restaurantService.get(restaurant.getId())));
-            return "You have voted" + voteService.get(existing.getId()).toString() + " " + voteService.get(existing.getId()).getTime().toString();
+            return "You have voted: " + voteService.get(created.getId()) + " " + voteService.get(created.getId()).getTime();  //TODO remove unnecessary queries
         }
-        return "Sorry, you can't vote after 11:00 AM";
+        return "Sorry, you can't vote after " + votingEndTime + " AM";
     }
 
-    private boolean hasVoteToday(UserRestaurantTo restaurant) {
-        Vote vote = voteService.findByUserAndDate(SecurityUtil.getAuthorizedUser(), LocalDate.now());
+    private boolean hasVoteToday(UserRestaurantTo restaurant, JwtUser authUser) {
+        Vote vote = voteService.findByUserAndDate(getFromJwtUser(authUser), LocalDate.now());
         return vote != null && vote.getRestaurant().id() == restaurant.id();
+    }
+
+    private User getFromJwtUser(JwtUser authUser) {
+        return userService.get(authUser.getId());
     }
 }

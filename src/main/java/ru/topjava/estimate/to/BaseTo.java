@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import ru.topjava.estimate.HasId;
 
+import java.io.Serializable;
+
 @NoArgsConstructor
 @AllArgsConstructor
 public class BaseTo implements HasId {

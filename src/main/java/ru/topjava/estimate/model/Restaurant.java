@@ -1,14 +1,12 @@
 package ru.topjava.estimate.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.Cascade;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Set;
 
 @Entity
@@ -19,7 +17,7 @@ import java.util.Set;
 public class Restaurant extends AbstractNamedEntity {
 
     @OneToMany(mappedBy = "restaurant", fetch = FetchType.LAZY, orphanRemoval = true)
-    @Cascade(value = org.hibernate.annotations.CascadeType.ALL)
+//    @Cascade(value = org.hibernate.annotations.CascadeType.ALL)
     private Set<Price> restaurantPrice;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")

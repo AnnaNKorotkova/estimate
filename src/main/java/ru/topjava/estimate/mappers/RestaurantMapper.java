@@ -32,7 +32,7 @@ public interface RestaurantMapper {
     default void toRestaurantDTO(Restaurant restaurant, @MappingTarget UserRestaurantTo dto) {
         dto.setPrice(
                 restaurant.getRestaurantPrice().stream()
-                .map(PriceMapper.INSTANCE::toDTO)
+                .map(UserPriceMapper.INSTANCE::toDTO)
                 .collect(Collectors.toSet())
         );
         dto.setVoteCounter(restaurant.getVotes().size());

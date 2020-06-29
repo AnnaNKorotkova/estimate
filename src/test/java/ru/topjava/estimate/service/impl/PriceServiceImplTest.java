@@ -33,7 +33,7 @@ class PriceServiceImplTest {
     private PriceService service;
 
     @Autowired
-    DishService dishService;
+    private DishService dishService;
 
     @Test
     void create() throws Exception {

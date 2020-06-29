@@ -1,13 +1,11 @@
 package ru.topjava.estimate.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
@@ -24,11 +22,15 @@ public class Price extends AbstractBaseEntity {
     private LocalDate date;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "restaurant_id", nullable = false)
     //   @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonBackReference
     private Restaurant restaurant;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "dish_id", nullable = false)
 //    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonBackReference
     private Dish dish;
 
     @NotNull
@@ -43,4 +45,13 @@ public class Price extends AbstractBaseEntity {
         this.date = date;
         this.price = price;
     }
+
+    public Price(Long id, LocalDate date, Restaurant restaurant, Dish dish, BigDecimal price) {
+        super(id);
+        this.date = date;
+        this.restaurant = restaurant;
+        this.dish = dish;
+        this.price = price;
+    }
+
 }
