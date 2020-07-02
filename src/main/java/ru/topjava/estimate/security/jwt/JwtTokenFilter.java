@@ -11,7 +11,6 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
-
 public class JwtTokenFilter extends GenericFilterBean {
 
     private JwtTokenProvider jwtTokenProvider;
@@ -34,5 +33,4 @@ public class JwtTokenFilter extends GenericFilterBean {
         }
         filterChain.doFilter(req, res);
     }
-
 }

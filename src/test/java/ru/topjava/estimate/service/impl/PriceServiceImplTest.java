@@ -83,14 +83,14 @@ class PriceServiceImplTest {
 
     @Test
     void findByDateAndDishAndRestaurant() throws Exception {
-        Price price = service.findByDateAndDishAndRestaurant(PRICE_1.getDate(), DISH_1, RESTAURANT_1);
+        Price price = service.findByRestaurantAndDishAndDate(RESTAURANT_1, DISH_1, PRICE_1.getDate());
         PRICE_MATCHER.assertMatch(price, PRICE_1);
     }
 
     @Test
     void notFoundByDateAndDishAndRestaurant() throws Exception {
         Assertions.assertThrows(NotFoundException.class,
-                () -> service.findByDateAndDishAndRestaurant(PRICE_3.getDate(), DISH_1, RESTAURANT_1));
+                () -> service.findByRestaurantAndDishAndDate(RESTAURANT_1, DISH_1, PRICE_3.getDate()));
     }
 
     @Test
@@ -101,7 +101,7 @@ class PriceServiceImplTest {
 
     @Test
     void findAllByDateAndRestaurant() {
-        List<Price> list = service.findAllByDateAndRestaurant(PRICE_1.getDate(), RESTAURANT_1);
+        List<Price> list = service.findAllByRestaurantAndDate(RESTAURANT_1, PRICE_1.getDate());
         PRICE_MATCHER.assertMatch(list, DATE_REST_PRICES);
     }
 }

@@ -1,8 +1,8 @@
 package ru.topjava.estimate.util;
 
+import ru.topjava.estimate.HasId;
 import ru.topjava.estimate.exeption.IllegalRequestDataException;
 import ru.topjava.estimate.exeption.NotFoundException;
-import ru.topjava.estimate.HasId;
 
 public class ValidationUtil {
     public static <T> T checkNotFoundWithId(T object, long id) {

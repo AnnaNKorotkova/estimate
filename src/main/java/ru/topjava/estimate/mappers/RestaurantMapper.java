@@ -18,16 +18,7 @@ public interface RestaurantMapper {
             @Mapping(target = "hasVoteToday", ignore = true)
     })
     UserRestaurantTo toDTO(Restaurant restaurant);
-//
-//    @AfterMapping
-//    default void toRestaurantDTO(Restaurant restaurant, @MappingTarget RestaurantTo dto) {
-//        dto.setPrice(
-//                restaurant.getRestaurantPrice().stream()
-//                .map(x -> new PriceTo(x.getId(), x.getDish(), x.getPrice()))
-//                .collect(Collectors.toSet())
-//        );
-//        dto.setVoteCounter(restaurant.getVotes().size());
-//    }
+
     @AfterMapping
     default void toRestaurantDTO(Restaurant restaurant, @MappingTarget UserRestaurantTo dto) {
         dto.setPrice(

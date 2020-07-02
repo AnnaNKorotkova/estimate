@@ -1,11 +1,15 @@
 package ru.topjava.estimate.service.impl;
 
+import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -32,6 +36,9 @@ class VoteServiceImplTest {
 
     @Autowired
     private VoteService service;
+
+    @Autowired
+    private CacheManager cacheManager;
 
     @Test
     void create() throws Exception {
@@ -96,13 +103,17 @@ class VoteServiceImplTest {
     }
 
     @Test
-    void notFoundByRestaurantAndDate() throws Exception {
+    void notFoundByRestaurantAndDate() throws Exception { ;
         Assertions.assertEquals(service.findAllByRestaurantAndDate(RESTAURANT_1, DATE_2), List.of());
     }
 
     @Test
     void findByUserAndDate() throws Exception {
-        Assertions.assertThrows(NotFoundException.class,
-                () -> service.findByUserAndDate(ADMIN, DATE_3));
+        VOTE_MATCHER_NO_FIELDS_IGNORE.assertMatch(service.findByUserAndDate(USER, DATE_3), VOTE_3);
+    }
+
+    @Test
+    void notFoundByUserAndDate() throws Exception {
+        Assertions.assertNull(service.findByUserAndDate(ADMIN, DATE_3));
     }
 }

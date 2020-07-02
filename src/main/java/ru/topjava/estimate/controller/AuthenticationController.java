@@ -16,6 +16,7 @@ import ru.topjava.estimate.security.jwt.JwtTokenProvider;
 import ru.topjava.estimate.service.UserService;
 import ru.topjava.estimate.to.AuthenticationRequestTo;
 
+import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,7 +38,7 @@ public class AuthenticationController {
     }
 
     @PostMapping
-    public ResponseEntity login(@RequestBody AuthenticationRequestTo requestDto) {
+    public ResponseEntity login(@RequestBody @Valid AuthenticationRequestTo requestDto) {
         try {
             String email = requestDto.getEmail();
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, requestDto.getPassword()));

@@ -5,7 +5,7 @@ import ru.topjava.estimate.model.User;
 
 public class UserTestData {
 
-   public final static TestMatcher<User> USER_MATCHER = TestMatcher.usingFieldsComparator(User.class, "roles");
+   public final static TestMatcher<User> USER_MATCHER = TestMatcher.usingFieldsComparator(User.class, "roles", "password");
 
     public final static User USER = new User(100000000L, "User", "user@yandex.ru", "{noop}password", Role.USER);
     public final static User ADMIN = new User(100000001L, "Admin", "admin@gmail.com", "{noop}admin", Role.USER, Role.ADMIN);

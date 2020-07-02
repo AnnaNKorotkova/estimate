@@ -17,9 +17,9 @@ public interface PriceService {
 
     List<Price> getAll();
 
-    Price findByDateAndDishAndRestaurant(LocalDate date, Dish dish, Restaurant restaurant);
+    Price findByRestaurantAndDishAndDate(Restaurant restaurant, Dish dish, LocalDate date);
 
     List<Price> findAllByRestaurant(Restaurant restaurant);
 
-    List<Price> findAllByDateAndRestaurant(LocalDate date, Restaurant restaurant);
+    List<Price> findAllByRestaurantAndDate(Restaurant restaurant, LocalDate date);
 }

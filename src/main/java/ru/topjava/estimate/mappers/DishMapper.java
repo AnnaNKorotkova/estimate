@@ -11,5 +11,4 @@ public interface DishMapper {
     DishMapper INSTANCE = Mappers.getMapper(DishMapper.class);
 
     DishTo toDTO(Dish dish);
-
 }

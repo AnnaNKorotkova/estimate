@@ -11,7 +11,6 @@ import java.util.Set;
 @NoArgsConstructor
 public class UserRestaurantTo extends NamedTo {
 
-//    private Set<DishTo> dishToSet;
 
     private Set<UserPriceTo> price;
 
@@ -25,16 +24,6 @@ public class UserRestaurantTo extends NamedTo {
         this.voteCounter = voteCounter;
         this.hasVoteToday = hasVoteToday;
     }
-//
-//    public RestaurantTo setAndGet(RestaurantTo restaurant, Set<PriceTo> price) {
-//        return new RestaurantTo(
-//                restaurant.getId(),
-//                restaurant.getName(),
-//                price,
-//                restaurant.getVoteCounter(),
-//                restaurant.isHasVoteToday()
-//        );
-//    }
 
     public UserRestaurantTo setAndGetInstance(UserRestaurantTo restaurant, boolean hasVoteToday) {
         return new UserRestaurantTo(

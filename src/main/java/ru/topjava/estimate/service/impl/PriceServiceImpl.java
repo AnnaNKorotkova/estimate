@@ -2,6 +2,8 @@ package ru.topjava.estimate.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -17,7 +19,6 @@ import java.util.Collections;
 import java.util.List;
 
 import static ru.topjava.estimate.util.ValidationUtil.checkNotFound;
-import static ru.topjava.estimate.util.ValidationUtil.checkNotFoundWithId;
 
 @Service
 @Slf4j
@@ -29,6 +30,7 @@ public class PriceServiceImpl implements PriceService {
 
     @Override
     @Transactional
+    @CacheEvict(value = "prices", allEntries = true)
     public Price save(Price price) {
         Assert.notNull(price, "price must not be null");
         log.info("save price {}", price.getId());
@@ -37,6 +39,7 @@ public class PriceServiceImpl implements PriceService {
 
     @Override
     @Transactional
+    @CacheEvict(value = "prices", allEntries = true)
     public void delete(Long id) {
         Assert.notNull(id, "price id must not be null");
         log.info("delete price {}", id);
@@ -58,7 +61,7 @@ public class PriceServiceImpl implements PriceService {
     }
 
     @Override
-    public Price findByDateAndDishAndRestaurant(LocalDate date, Dish dish, Restaurant restaurant) {
+    public Price findByRestaurantAndDishAndDate(Restaurant restaurant, Dish dish, LocalDate date) {
         Assert.notNull(date, "date must not be null");
         Assert.notNull(dish, "dish must not be null");
         Assert.notNull(restaurant, "restaurant must not be null");
@@ -77,7 +80,8 @@ public class PriceServiceImpl implements PriceService {
     }
 
     @Override
-    public List<Price> findAllByDateAndRestaurant(LocalDate date, Restaurant restaurant) {
+    @Cacheable("prices")
+    public List<Price> findAllByRestaurantAndDate(Restaurant restaurant, LocalDate date) {
         Assert.notNull(date, "date must not be null");
         Assert.notNull(restaurant, "restaurant must not be null");
         List<Price> list = priceRepository.findAllByDateAndRestaurant(date, restaurant);

@@ -3,9 +3,9 @@ package ru.topjava.estimate.to;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import ru.topjava.estimate.model.Dish;
-import ru.topjava.estimate.model.Restaurant;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -13,16 +13,14 @@ import java.time.LocalDate;
 @Setter
 @NoArgsConstructor
 public class AdminPriceTo extends BaseTo {
-    private LocalDate date;
-    private Restaurant restaurant;
-    private Dish dish;
-    private BigDecimal price;
 
-//    public AdminPriceTo(Long id, LocalDate date, Restaurant restaurant, Dish dish, BigDecimal price) {
-//        super(id);
-//        this.date = date;
-//        this.restaurant = restaurant;
-//        this.dish = dish;
-//        this.price = price;
-//    }
+    @NotNull
+    private LocalDate date;
+    @NotNull
+    private NamedTo restaurant;
+    @NotNull
+    private NamedTo dish;
+    @NotNull
+    @Positive
+    private BigDecimal price;
 }

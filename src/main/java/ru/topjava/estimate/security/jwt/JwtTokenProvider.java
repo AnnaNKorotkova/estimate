@@ -1,11 +1,6 @@
 package ru.topjava.estimate.security.jwt;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.JwtException;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import ru.topjava.estimate.model.Role;
+import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -15,11 +10,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
+import ru.topjava.estimate.model.Role;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
-
 
 @Component
 public class JwtTokenProvider {
@@ -29,7 +24,6 @@ public class JwtTokenProvider {
 
     @Value("${jwt.token.expired}")
     private long validityInMilliseconds;
-
 
     @Autowired
     private UserDetailsService userDetailsService;
@@ -53,11 +47,11 @@ public class JwtTokenProvider {
         Date now = new Date();
         Date validity = new Date(now.getTime() + validityInMilliseconds);
 
-        return Jwts.builder()//
-                .setClaims(claims)//
-                .setIssuedAt(now)//
-                .setExpiration(validity)//
-                .signWith(SignatureAlgorithm.HS256, secret)//
+        return Jwts.builder()
+                .setClaims(claims)
+                .setIssuedAt(now)
+                .setExpiration(validity)
+                .signWith(SignatureAlgorithm.HS256, secret)
                 .compact();
     }
 
@@ -96,7 +90,6 @@ public class JwtTokenProvider {
         List<String> result = new ArrayList<>();
 
         userRoles.forEach(role -> {
-//            result.add(role.getName());
             result.add(role.getAuthority());
         });
 

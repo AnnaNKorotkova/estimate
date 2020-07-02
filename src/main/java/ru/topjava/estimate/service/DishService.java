@@ -14,5 +14,4 @@ public interface DishService {
     Dish get (Long id);
 
     List<Dish> getAll() ;
-
 }

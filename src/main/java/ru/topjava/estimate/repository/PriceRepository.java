@@ -19,4 +19,4 @@ public interface PriceRepository extends JpaRepository<Price, Long> {
     List<Price> findAllByDateAndRestaurant(LocalDate date, Restaurant restaurant);
 
     Price findByDateAndDishAndRestaurant(LocalDate date, Dish dish, Restaurant restaurant);
- }
+}

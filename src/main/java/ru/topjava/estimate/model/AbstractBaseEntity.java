@@ -1,8 +1,6 @@
 package ru.topjava.estimate.model;
 
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.hibernate.Hibernate;
 import org.springframework.util.Assert;
 import ru.topjava.estimate.HasId;
@@ -28,7 +26,6 @@ public abstract class AbstractBaseEntity implements HasId{
     protected AbstractBaseEntity(Long id) {
         this.id = id;
     }
-
 
     @Override
     public void setId(Long id) {

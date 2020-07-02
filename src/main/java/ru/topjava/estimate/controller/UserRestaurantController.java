@@ -1,6 +1,5 @@
 package ru.topjava.estimate.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -15,10 +14,11 @@ import ru.topjava.estimate.service.UserService;
 import ru.topjava.estimate.service.VoteService;
 import ru.topjava.estimate.to.BaseTo;
 import ru.topjava.estimate.to.UserRestaurantTo;
-import ru.topjava.estimate.util.SecurityUtil;
 
+import javax.validation.Valid;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -45,40 +45,31 @@ public class UserRestaurantController {
 
     @GetMapping
     public List<UserRestaurantTo> getAll(@AuthenticationPrincipal JwtUser authUser) {
-        List<UserRestaurantTo> list = restaurantService.getAll()
+        return restaurantService.getAll()
                 .stream()
-                .map(x -> x.setAndGetInstance(x, Set.copyOf(priceService.findAllByDateAndRestaurant(LocalDate.now().minusDays(3), x)))) // TODO delete minus
+                .map(x -> x.setAndGetInstance(
+                        x,
+                        Set.copyOf(priceService.findAllByRestaurantAndDate(x, LocalDate.now())),
+                        Set.copyOf(voteService.findAllByRestaurantAndDate(x, LocalDate.now()))
+                ))
                 .map(RestaurantMapper.INSTANCE::toDTO)
                 .map(x -> x.setAndGetInstance(x, hasVoteToday(x, authUser)))
                 .collect(Collectors.toList());
-        return list;
     }
 
-//    @GetMapping
-//    public List<RestaurantTo> getAllWithVotes() {
-//        return restaurantService.getAllWithVotes()
-//                .stream()
-//                .map(RestaurantMapper.INSTANCE::toDTO)
-//                .map(x -> x.setAndGet(x, hasVoteToday(x)))
-//                .collect(Collectors.toList());
-//    }
-
-//    @GetMapping("/all")
-//    public List<Restaurant> getAllPr() {
-//        return restaurantService.getAllWithPriceAndVotes();
-//    }
-
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public String setVote(@RequestBody BaseTo restaurant, @AuthenticationPrincipal JwtUser authUser) {
+    public String setVote(@RequestBody @Valid BaseTo restaurant, @AuthenticationPrincipal @Valid JwtUser authUser) {
         if (LocalTime.now().isBefore(LocalTime.parse(votingEndTime))) {
             LocalDate today = LocalDate.now();
             User user = getFromJwtUser(authUser);
             Vote existing = voteService.findByUserAndDate(user, today);
 
             Long id = existing == null ? null : existing.getId();
-            Vote created = voteService.save(new Vote(id, today, LocalTime.now(), user,
-                    restaurantService.get(restaurant.getId())));
-            return "You have voted: " + voteService.get(created.getId()) + " " + voteService.get(created.getId()).getTime();  //TODO remove unnecessary queries
+            Vote created = voteService.save(
+                    new Vote(id, today, LocalTime.now(), user, restaurantService.get(restaurant.getId()))
+            );
+            return "You have voted for '" + created.getRestaurant().getName() + "' at " +
+                    created.getTime().truncatedTo(ChronoUnit.SECONDS);
         }
         return "Sorry, you can't vote after " + votingEndTime + " AM";
     }

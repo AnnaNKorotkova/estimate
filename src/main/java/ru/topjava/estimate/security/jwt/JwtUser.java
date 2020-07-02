@@ -2,14 +2,9 @@ package ru.topjava.estimate.security.jwt;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import ru.topjava.estimate.model.Role;
-import ru.topjava.estimate.model.User;
 
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.stream.Collectors;
 
 
 public class JwtUser implements UserDetails {
@@ -62,7 +57,6 @@ public class JwtUser implements UserDetails {
         return true;
     }
 
-
     public String getEmail() {
         return email;
     }
@@ -82,5 +76,4 @@ public class JwtUser implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-
 }

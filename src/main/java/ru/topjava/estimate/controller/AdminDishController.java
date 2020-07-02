@@ -5,8 +5,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import ru.topjava.estimate.mappers.NamedMapper;
-import ru.topjava.estimate.model.Restaurant;
-import ru.topjava.estimate.service.RestaurantService;
+import ru.topjava.estimate.model.Dish;
+import ru.topjava.estimate.service.DishService;
 import ru.topjava.estimate.to.NamedTo;
 
 import javax.validation.Valid;
@@ -14,13 +14,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(value = AdminRestaurantController.URL, produces = MediaType.APPLICATION_JSON_VALUE)
-public class AdminRestaurantController {
+@RequestMapping(value = AdminDishController.URL, produces = MediaType.APPLICATION_JSON_VALUE)
+public class AdminDishController {
 
-    final static String URL = "/admin/restaurants";
+    final static String URL = "/admin/dishes";
 
     @Autowired
-    RestaurantService service;
+    DishService service;
 
     @GetMapping
     public List<NamedTo> getAll() {
@@ -42,8 +42,7 @@ public class AdminRestaurantController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void save(@RequestBody @Valid NamedTo restaurant) {
-
-        service.save(new Restaurant(restaurant.getId(), restaurant.getName()));
+    public void save(@RequestBody @Valid NamedTo dish) {
+        service.save(new Dish(dish.getId(), dish.getName()));
     }
 }

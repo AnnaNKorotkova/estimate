@@ -12,7 +12,6 @@ public interface UserPriceMapper {
 
         @Mappings({
                 @Mapping(target = "date", dateFormat = "dd-MM-yyyy"),
-//                @Mapping(target = "restaurantName", ignore = true),
                 @Mapping(target = "dishName", ignore = true),
                 @Mapping(target = "dishPrice", ignore = true)
         })
@@ -21,9 +20,7 @@ public interface UserPriceMapper {
         @AfterMapping
         default void toPriceDTO(Price price, @MappingTarget UserPriceTo dto) {
                 dto.setDate(price.getDate());
-//                dto.setRestaurantName(price.getRestaurant().getName());
                 dto.setDishName(price.getDish().getName());
                 dto.setDishPrice(price.getPrice());
         }
-
 }

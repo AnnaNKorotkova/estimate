@@ -1,11 +1,8 @@
 package ru.topjava.estimate;
 
-import org.springframework.test.web.servlet.ResultMatcher;
-
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-//import static ru.topjava.estimate.TestUtil.readListFromJsonMvcResult;
 
 public class TestMatcher<T> {
     private final Class<T> clazz;
@@ -45,16 +42,4 @@ public class TestMatcher<T> {
             assertThat(actual).usingElementComparatorIgnoringFields(fieldsToIgnore).isEqualTo(expected);
         }
     }
-//
-//    public ResultMatcher contentJson(T expected) {
-//        return result -> assertMatch(TestUtil.readFromJsonMvcResult(result, clazz), expected);
-//    }
-//
-//    public ResultMatcher contentJson(T... expected) {
-//        return contentJson(List.of(expected));
-//    }
-//
-//    public ResultMatcher contentJson(Iterable<T> expected) {
-//        return result -> assertMatch(readListFromJsonMvcResult(result, clazz), expected);
-//    }
 }

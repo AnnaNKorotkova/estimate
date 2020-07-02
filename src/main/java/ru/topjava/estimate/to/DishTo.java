@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
 
 @Getter
@@ -11,15 +13,8 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class DishTo extends NamedTo {
 
+    @NotBlank
+    @Positive
     private BigDecimal price;
 
-    public DishTo(Long id, String name, BigDecimal price) {
-        super(id, name);
-        this.price = price;
-
-    }
-    public DishTo(String name, BigDecimal price) {
-        super(name);
-        this.price = price;
-    }
 }

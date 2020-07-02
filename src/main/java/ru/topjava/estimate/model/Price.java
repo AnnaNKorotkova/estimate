@@ -1,13 +1,15 @@
 package ru.topjava.estimate.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Cache;
 
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -16,6 +18,7 @@ import java.time.LocalDate;
 @Setter
 @NoArgsConstructor
 @Table(name = "price")
+@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Price extends AbstractBaseEntity {
 
     @NotNull
@@ -24,20 +27,18 @@ public class Price extends AbstractBaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
     //   @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonBackReference
+    @NotNull
     private Restaurant restaurant;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "dish_id", nullable = false)
 //    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonBackReference
+    @NotNull
     private Dish dish;
 
     @NotNull
-//    @ManyToOne(fetch = FetchType.EAGER)
-//    @JoinTable(name = "currency", joinColumns = @JoinColumn(name = "currency_id"),
-//            inverseJoinColumns = @JoinColumn(name = "id"))
     @Digits(integer = 10, fraction = 2)
+    @Positive
     private BigDecimal price;
 
     public Price(Long id, @NotNull LocalDate date, @NotNull BigDecimal price) {
@@ -53,5 +54,4 @@ public class Price extends AbstractBaseEntity {
         this.dish = dish;
         this.price = price;
     }
-
 }

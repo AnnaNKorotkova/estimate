@@ -1,7 +1,10 @@
 package ru.topjava.estimate.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.annotations.Cache;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -16,8 +19,6 @@ import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 
-import static ru.topjava.estimate.util.ValidationUtil.checkNotFound;
-
 @Service
 @Slf4j
 @Transactional(readOnly = true)
@@ -28,6 +29,7 @@ public class VoteServiceImpl implements VoteService {
 
     @Override
     @Transactional
+    @CacheEvict(value = {"votes", "vote"}, allEntries = true)
     public Vote save(Vote vote) {
         Assert.notNull(vote, "vote must not be null");
         log.info("save dish {}", vote.getId());
@@ -36,6 +38,7 @@ public class VoteServiceImpl implements VoteService {
 
     @Override
     @Transactional
+    @CacheEvict(value = {"votes", "vote"}, allEntries = true)
     public void delete(Long id) {
         Assert.notNull(id, "vote must not be null");
         log.info("delete vote {}", id);
@@ -65,6 +68,7 @@ public class VoteServiceImpl implements VoteService {
     }
 
     @Override
+    @Cacheable(value = "votes")
     public List<Vote> findAllByRestaurantAndDate(Restaurant restaurant, LocalDate date) {
         Assert.notNull(restaurant, "restaurant must not be null");
         Assert.notNull(date, "date must not be null");
@@ -74,6 +78,7 @@ public class VoteServiceImpl implements VoteService {
     }
 
     @Override
+    @Cacheable(value = "vote")
     public Vote findByUserAndDate(User user, LocalDate date) {
         Assert.notNull(user, "user must not be null");
         Assert.notNull(date, "date must not be null");
