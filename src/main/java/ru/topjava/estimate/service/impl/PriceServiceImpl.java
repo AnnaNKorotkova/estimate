@@ -80,7 +80,7 @@ public class PriceServiceImpl implements PriceService {
     }
 
     @Override
-    @Cacheable("prices")
+    @Cacheable(value = "prices", key = "#date")
     public List<Price> findAllByRestaurantAndDate(Restaurant restaurant, LocalDate date) {
         Assert.notNull(date, "date must not be null");
         Assert.notNull(restaurant, "restaurant must not be null");

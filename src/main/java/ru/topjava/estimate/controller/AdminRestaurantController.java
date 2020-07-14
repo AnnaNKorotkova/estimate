@@ -25,13 +25,13 @@ public class AdminRestaurantController {
     @GetMapping
     public List<NamedTo> getAll() {
         return service.getAll().stream()
-                .map(NamedMapper.INSTANCE::toDTO)
+                .map(NamedMapper.INSTANCE::toRestaurantTo)
                 .collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
     public NamedTo get(@PathVariable long id) {
-        return NamedMapper.INSTANCE.toDTO(service.get(id));
+        return NamedMapper.INSTANCE.toRestaurantTo(service.get(id));
     }
 
     @DeleteMapping("/{id}")

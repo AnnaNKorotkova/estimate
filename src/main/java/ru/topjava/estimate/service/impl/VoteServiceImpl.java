@@ -1,7 +1,6 @@
 package ru.topjava.estimate.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.annotations.Cache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -12,10 +11,13 @@ import ru.topjava.estimate.exeption.NotFoundException;
 import ru.topjava.estimate.model.Restaurant;
 import ru.topjava.estimate.model.User;
 import ru.topjava.estimate.model.Vote;
+import ru.topjava.estimate.repository.RestaurantRepository;
 import ru.topjava.estimate.repository.VoteRepository;
 import ru.topjava.estimate.service.VoteService;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.List;
 
@@ -26,6 +28,9 @@ public class VoteServiceImpl implements VoteService {
 
     @Autowired
     private VoteRepository voteRepository;
+
+    @Autowired
+    private RestaurantRepository restaurantRepository;
 
     @Override
     @Transactional
@@ -85,5 +90,27 @@ public class VoteServiceImpl implements VoteService {
         Vote vote = voteRepository.findByUserAndDate(user, date);
         log.info("findByUserAndDate({}, {}), find {}", user.getName(), date, vote == null ? null : vote.getId());
         return vote;
+    }
+
+    @Override
+    @Transactional
+    public String vote(Long restaurantId, User user, String votingEndTime) {
+        Assert.notNull(user, "user must not be null");
+        Assert.notNull(restaurantId, "restaurant_id must not be null");
+        Assert.notNull(votingEndTime, "votingEndTime must not be null");
+
+        LocalDate today = LocalDate.now();
+        Vote existing = voteRepository.findByUserAndDate(user, today);
+
+        if (existing != null && LocalTime.now().isAfter(LocalTime.parse(votingEndTime))) {
+            return "Sorry, you can't change your vote after " + votingEndTime + " AM";
+        }
+
+        Long id = existing == null ? null : existing.getId();
+        Vote created = voteRepository.save(
+                new Vote(id, today, LocalTime.now(), user, restaurantRepository.findById(restaurantId).orElse(null))
+        );
+        return "You have voted for '" + created.getRestaurant().getName() + "' at " +
+                created.getTime().truncatedTo(ChronoUnit.SECONDS);
     }
 }

@@ -15,4 +15,6 @@ public interface RestaurantService {
     Restaurant get(Long id);
 
     List<Restaurant> getAll();
+
+    List<Restaurant> getAllByToday();
 }

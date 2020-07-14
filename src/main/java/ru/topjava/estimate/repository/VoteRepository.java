@@ -19,4 +19,6 @@ public interface VoteRepository extends JpaRepository<Vote, Long> {
     List<Vote> findAllByRestaurantAndDate(Restaurant restaurant, LocalDate date);
 
     Vote findByUserAndDate(User user, LocalDate date);
+
+    List<Vote> findAllByDate (LocalDate date);
 }

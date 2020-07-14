@@ -3,8 +3,8 @@ package ru.topjava.estimate.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
@@ -26,13 +26,11 @@ public class Price extends AbstractBaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
-    //   @OnDelete(action = OnDeleteAction.CASCADE)
     @NotNull
     private Restaurant restaurant;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "dish_id", nullable = false)
-//    @OnDelete(action = OnDeleteAction.CASCADE)
     @NotNull
     private Dish dish;
 
@@ -41,17 +39,15 @@ public class Price extends AbstractBaseEntity {
     @Positive
     private BigDecimal price;
 
-    public Price(Long id, @NotNull LocalDate date, @NotNull BigDecimal price) {
+    public Price(Long id, LocalDate date, BigDecimal price) {
         super(id);
         this.date = date;
         this.price = price;
     }
 
     public Price(Long id, LocalDate date, Restaurant restaurant, Dish dish, BigDecimal price) {
-        super(id);
-        this.date = date;
+        this(id, date, price);
         this.restaurant = restaurant;
         this.dish = dish;
-        this.price = price;
     }
 }

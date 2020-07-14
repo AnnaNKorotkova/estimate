@@ -10,8 +10,9 @@ It has two Role: ADMIN and USER
 
 ### USER can
 1. Authificate
-2. Vote for restaurant until 11:00
-3. Get all restaurant in a day  for voting.
+2. Vote for restaurant
+3. Change vote until 11:00
+4. Get all restaurant in a day  for voting.
 
 
 -------------------------------------------
@@ -20,8 +21,8 @@ It has two Role: ADMIN and USER
 **Get authorization token:**
 
 curl -d '{"email": "user@yandex.ru", "password": "password"}' -H "Content-Type: application/json" -X POST http://localhost:8080/login
-Responce: JSON AuthetificationResponceTo
-From responce take authorization token. And put into the header with key "Authorization" and value token with prefix "Bearer_"
+Response: JSON AuthetificationResponseTo
+From response take authorization token. And put into the header with key "Authorization" and value token with prefix "Bearer_"
 
 -------------------------------------------
 - ***User ENDPOINTS***
@@ -29,25 +30,25 @@ From responce take authorization token. And put into the header with key "Author
 **View all restaurants with dishes and prices and vote statistic:**
 
 curl -H "Authorization:Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyQHlhbmRleC5ydSIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpYXQiOjE1OTM1OTExOTAsImV4cCI6MTU5NzE5MTE5MH0.pZ7ZJ5RN1KorKzZ82jBkEEJyiTduudbVjw7obYTYGUQ" -X GET http://localhost:8080/restaurants
-Responce: JSON List<RestaurantTo>
+Response: JSON List<RestaurantTo>
 
 **Voting for choosen restaurant:**
 
-curl -d '{"id": 100000004}' -H "Authorization:Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyQHlhbmRleC5ydSIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpYXQiOjE1OTM1OTExOTAsImV4cCI6MTU5NzE5MTE5MH0.pZ7ZJ5RN1KorKzZ82jBkEEJyiTduudbVjw7obYTYGUQ" -H "Content-Type: application/json" -X POST http://localhost:8080/restaurants
-Responce: String
+curl -d '{"id": 100000004}' -H "Authorization:Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyQHlhbmRleC5ydSIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpYXQiOjE1OTM1OTExOTAsImV4cCI6MTU5NzE5MTE5MH0.pZ7ZJ5RN1KorKzZ82jBkEEJyiTduudbVjw7obYTYGUQ" -H "Content-Type: application/json" -X POST http://localhost:8080/vote
+Response: String
 
 -------------------------------------------
-- ***Admins ENDPOINT RESTAURANT***
+- ***Admins ENDPOINT RESTAURANT***curl -d '{"id": 100000004}' -H "Authorization:Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyQHlhbmRleC5ydSIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpYXQiOjE1OTM1OTExOTAsImV4cCI6MTU5NzE5MTE5MH0.pZ7ZJ5RN1KorKzZ82jBkEEJyiTduudbVjw7obYTYGUQ" -H "Content-Type: application/json" -X POST http://localhost:8080/restaurants
 
 **Get restaurant:**
 
 curl -H "Authorization:Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJyb2xlcyI6WyJST0xFX1VTRVIiLCJST0xFX0FETUlOIl0sImlhdCI6MTU5MzU5MDk1MywiZXhwIjoxNTk3MTkwOTUzfQ.tDg-X4fCLj1KoAqKF8aosiv0Svc2tYNmbhkH9cMZGn4" -X GET http://localhost:8080/admin/restaurants/100000002
-Responce: JSON RestaurantTo
+Response: JSON RestaurantTo
 
 **GetAll restaurants:**
 
 curl -H "Authorization:Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJyb2xlcyI6WyJST0xFX1VTRVIiLCJST0xFX0FETUlOIl0sImlhdCI6MTU5MzU5MDk1MywiZXhwIjoxNTk3MTkwOTUzfQ.tDg-X4fCLj1KoAqKF8aosiv0Svc2tYNmbhkH9cMZGn4" -X GET http://localhost:8080/admin/restaurants
-Responce: JSON List<RestaurantTo>
+Response: JSON List<RestaurantTo>
 
 **Delete restaurant:**
 
@@ -57,7 +58,7 @@ Response: HttpStatus.NO_CONTENT
 **Save or update (if "id" exists or notNull) restaurant:**
 
 curl -d '{"id": 100000004, "name": "Baku"}' -H "Authorization:Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJyb2xlcyI6WyJST0xFX1VTRVIiLCJST0xFX0FETUlOIl0sImlhdCI6MTU5MzU5MDk1MywiZXhwIjoxNTk3MTkwOTUzfQ.tDg-X4fCLj1KoAqKF8aosiv0Svc2tYNmbhkH9cMZGn4" -H "Content-Type: application/json" -X POST http://localhost:8080/admin/restaurants
-Responce: HttpStatus.NO_CONTENT
+Response: HttpStatus.NO_CONTENT
 
 -------------------------------------------
 - ***Admins ENDPOINT DISH***
@@ -65,12 +66,12 @@ Responce: HttpStatus.NO_CONTENT
 **Get dish:**
 
 curl -H "Authorization:Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJyb2xlcyI6WyJST0xFX1VTRVIiLCJST0xFX0FETUlOIl0sImlhdCI6MTU5MzU5MDk1MywiZXhwIjoxNTk3MTkwOTUzfQ.tDg-X4fCLj1KoAqKF8aosiv0Svc2tYNmbhkH9cMZGn4" -X GET http://localhost:8080/admin/dish/100000018
-Responce: JSON NamedTo
+Response: JSON NamedTo
 
 **GetAll dishes:**
 
 curl -H "Authorization:Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJyb2xlcyI6WyJST0xFX1VTRVIiLCJST0xFX0FETUlOIl0sImlhdCI6MTU5MzU5MDk1MywiZXhwIjoxNTk3MTkwOTUzfQ.tDg-X4fCLj1KoAqKF8aosiv0Svc2tYNmbhkH9cMZGn4" -X GET http://localhost:8080/admin/dishes
-Responce: JSON List<NamedTo>
+Response: JSON List<NamedTo>
 
 **Delete dish:**
 
@@ -80,7 +81,7 @@ Response: HttpStatus.NO_CONTENT
 **Save or update (if "id" exists or notNull) dish:**
 
 curl -d '{"id": 100000018, "name": "Borsch"}' -H "Authorization:Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJyb2xlcyI6WyJST0xFX1VTRVIiLCJST0xFX0FETUlOIl0sImlhdCI6MTU5MzU5MDk1MywiZXhwIjoxNTk3MTkwOTUzfQ.tDg-X4fCLj1KoAqKF8aosiv0Svc2tYNmbhkH9cMZGn4" -H "Content-Type: application/json" -X POST http://localhost:8080/admin/dishes
-Responce: HttpStatus.NO_CONTENT
+Response: HttpStatus.NO_CONTENT
 
 -------------------------------------------
 - ***Admins ENDPOINT PRICE***
@@ -88,12 +89,12 @@ Responce: HttpStatus.NO_CONTENT
 **Get price**
 
 curl -H "Authorization:Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJyb2xlcyI6WyJST0xFX1VTRVIiLCJST0xFX0FETUlOIl0sImlhdCI6MTU5MzU5MDk1MywiZXhwIjoxNTk3MTkwOTUzfQ.tDg-X4fCLj1KoAqKF8aosiv0Svc2tYNmbhkH9cMZGn4" -X GET http://localhost:8080/admin/pices/100000024
-Responce: JSON AdminPriceTo
+Response: JSON AdminPriceTo
 
 **GetAll prices:**
 
 curl -H "Authorization:Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJyb2xlcyI6WyJST0xFX1VTRVIiLCJST0xFX0FETUlOIl0sImlhdCI6MTU5MzU5MDk1MywiZXhwIjoxNTk3MTkwOTUzfQ.tDg-X4fCLj1KoAqKF8aosiv0Svc2tYNmbhkH9cMZGn4" -X GET http://localhost:8080/admin/prices
-Responce: JSON List<AdminPriceTo>
+Response: JSON List<AdminPriceTo>
 
 **Delete price:**
 
@@ -103,5 +104,5 @@ Response: HttpStatus.NO_CONTENT
 **Save or update (if "id" exists or notNull) price:**
 
 curl -d '{"id": 100000024, "name": "Borsch"}' -H "Authorization:Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJyb2xlcyI6WyJST0xFX1VTRVIiLCJST0xFX0FETUlOIl0sImlhdCI6MTU5MzU5MDk1MywiZXhwIjoxNTk3MTkwOTUzfQ.tDg-X4fCLj1KoAqKF8aosiv0Svc2tYNmbhkH9cMZGn4" -H "Content-Type: application/json" -X POST http://localhost:8080/admin/prices
-Responce: HttpStatus.NO_CONTENT
+Response: HttpStatus.NO_CONTENT
 

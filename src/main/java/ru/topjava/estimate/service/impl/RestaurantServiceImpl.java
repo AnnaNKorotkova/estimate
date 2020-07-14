@@ -8,11 +8,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import ru.topjava.estimate.exeption.NotFoundException;
+import ru.topjava.estimate.model.Price;
 import ru.topjava.estimate.model.Restaurant;
+import ru.topjava.estimate.model.Vote;
+import ru.topjava.estimate.repository.PriceRepository;
 import ru.topjava.estimate.repository.RestaurantRepository;
+import ru.topjava.estimate.repository.VoteRepository;
 import ru.topjava.estimate.service.RestaurantService;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static ru.topjava.estimate.util.ValidationUtil.checkNotFoundWithId;
 
@@ -23,6 +29,12 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     @Autowired
     private RestaurantRepository restaurantRepository;
+
+    @Autowired
+    private PriceRepository priceRepository;
+
+    @Autowired
+    private VoteRepository voteRepository;
 
     @Override
     @Transactional
@@ -58,10 +70,24 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Override
-    @Cacheable("restaurants")
     public List<Restaurant> getAll() {
         List<Restaurant> list = restaurantRepository.findAll();
         log.info("getAll, find {} rows", list.size());
         return list;
+    }
+
+    @Override
+    @Transactional
+    @Cacheable(value = "restaurants")
+    public List<Restaurant> getAllByToday() {
+        final List<Restaurant> restaurants = restaurantRepository.findAll();
+        final List<Price> prices = priceRepository.findAllByDate(LocalDate.now());
+        final List<Vote> votes = voteRepository.findAllByDate(LocalDate.now());
+        log.info("getAllByToday, find {} rows", restaurants.size());
+        return restaurants.stream().map(x -> x.setAndGetInstance(
+                x,
+                prices.stream().filter(y -> y.getRestaurant().equals(x)).collect(Collectors.toSet()),
+                votes.stream().filter(y -> y.getRestaurant().equals(x)).collect(Collectors.toSet())
+        )).collect(Collectors.toList());
     }
 }

@@ -3,10 +3,10 @@ package ru.topjava.estimate.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-import org.hibernate.annotations.Cache;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -46,9 +46,7 @@ public class Vote extends AbstractBaseEntity {
     }
 
     public Vote(Long id, LocalDate date, LocalTime time, User user, Restaurant restaurant) {
-        super(id);
-        this.date = date;
-        this.time = time;
+        this(id, date, time);
         this.user = user;
         this.restaurant = restaurant;
     }

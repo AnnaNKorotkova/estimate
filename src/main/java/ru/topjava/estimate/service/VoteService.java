@@ -22,4 +22,6 @@ public interface VoteService {
     List<Vote> findAllByRestaurantAndDate(Restaurant restaurant, LocalDate date);
 
     Vote findByUserAndDate(User user, LocalDate date);
+
+    String vote(Long restaurantId, User user, String votingEndTime);
 }
