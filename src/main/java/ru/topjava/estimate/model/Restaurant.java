@@ -20,7 +20,7 @@ public class Restaurant extends AbstractNamedEntity {
 
     @OneToMany(mappedBy = "restaurant", fetch = FetchType.LAZY)
     @Cascade(value = org.hibernate.annotations.CascadeType.ALL)
-    private Set<Price> restaurantPrice;
+    private Set<MenuItem> restaurantPrice;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
     @Cascade(value = org.hibernate.annotations.CascadeType.ALL)
@@ -30,13 +30,13 @@ public class Restaurant extends AbstractNamedEntity {
         super(id, name);
     }
 
-    public Restaurant(Long id, String name, Set<Price> price, Set<Vote> votes) {
+    public Restaurant(Long id, String name, Set<MenuItem> price, Set<Vote> votes) {
         this(id, name);
         this.restaurantPrice = price;
         this.votes = votes;
     }
 
-    public Restaurant setAndGetInstance(Restaurant restaurant, Set<Price> price, Set<Vote> votes) {
+    public Restaurant setAndGetInstance(Restaurant restaurant, Set<MenuItem> price, Set<Vote> votes) {
         return new Restaurant(
                 restaurant.getId(),
                 restaurant.getName(),

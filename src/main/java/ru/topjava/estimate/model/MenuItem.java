@@ -17,9 +17,9 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "price")
+@Table(name = "menu_item")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class Price extends AbstractBaseEntity {
+public class MenuItem extends AbstractBaseEntity {
 
     @NotNull
     private LocalDate date;
@@ -39,13 +39,13 @@ public class Price extends AbstractBaseEntity {
     @Positive
     private BigDecimal price;
 
-    public Price(Long id, LocalDate date, BigDecimal price) {
+    public MenuItem(Long id, LocalDate date, BigDecimal price) {
         super(id);
         this.date = date;
         this.price = price;
     }
 
-    public Price(Long id, LocalDate date, Restaurant restaurant, Dish dish, BigDecimal price) {
+    public MenuItem(Long id, LocalDate date, Restaurant restaurant, Dish dish, BigDecimal price) {
         this(id, date, price);
         this.restaurant = restaurant;
         this.dish = dish;

@@ -8,10 +8,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import ru.topjava.estimate.exeption.NotFoundException;
-import ru.topjava.estimate.model.Price;
+import ru.topjava.estimate.model.MenuItem;
 import ru.topjava.estimate.model.Restaurant;
 import ru.topjava.estimate.model.Vote;
-import ru.topjava.estimate.repository.PriceRepository;
+import ru.topjava.estimate.repository.MenuItemRepository;
 import ru.topjava.estimate.repository.RestaurantRepository;
 import ru.topjava.estimate.repository.VoteRepository;
 import ru.topjava.estimate.service.RestaurantService;
@@ -31,7 +31,7 @@ public class RestaurantServiceImpl implements RestaurantService {
     private RestaurantRepository restaurantRepository;
 
     @Autowired
-    private PriceRepository priceRepository;
+    private MenuItemRepository priceRepository;
 
     @Autowired
     private VoteRepository voteRepository;
@@ -81,7 +81,7 @@ public class RestaurantServiceImpl implements RestaurantService {
     @Cacheable(value = "restaurants")
     public List<Restaurant> getAllByToday() {
         final List<Restaurant> restaurants = restaurantRepository.findAll();
-        final List<Price> prices = priceRepository.findAllByDate(LocalDate.now());
+        final List<MenuItem> prices = priceRepository.findAllByDate(LocalDate.now());
         final List<Vote> votes = voteRepository.findAllByDate(LocalDate.now());
         log.info("getAllByToday, find {} rows", restaurants.size());
         return restaurants.stream().map(x -> x.setAndGetInstance(

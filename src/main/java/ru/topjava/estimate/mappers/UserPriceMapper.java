@@ -2,8 +2,8 @@ package ru.topjava.estimate.mappers;
 
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
-import ru.topjava.estimate.model.Price;
-import ru.topjava.estimate.to.UserPriceTo;
+import ru.topjava.estimate.model.MenuItem;
+import ru.topjava.estimate.to.UserMenuItemTo;
 
 @Mapper
 public interface UserPriceMapper {
@@ -15,10 +15,10 @@ public interface UserPriceMapper {
                 @Mapping(target = "dishName", ignore = true),
                 @Mapping(target = "dishPrice", ignore = true)
         })
-        UserPriceTo toDTO(Price price);
+        UserMenuItemTo toDTO(MenuItem price);
 
         @AfterMapping
-        default void toPriceDTO(Price price, @MappingTarget UserPriceTo dto) {
+        default void toPriceDTO(MenuItem price, @MappingTarget UserMenuItemTo dto) {
                 dto.setDate(price.getDate());
                 dto.setDishName(price.getDish().getName());
                 dto.setDishPrice(price.getPrice());

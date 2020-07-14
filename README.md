@@ -86,23 +86,23 @@ Response: HttpStatus.NO_CONTENT
 -------------------------------------------
 - ***Admins ENDPOINT PRICE***
 
-**Get price**
+**Get menuItem**
 
-curl -H "Authorization:Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJyb2xlcyI6WyJST0xFX1VTRVIiLCJST0xFX0FETUlOIl0sImlhdCI6MTU5MzU5MDk1MywiZXhwIjoxNTk3MTkwOTUzfQ.tDg-X4fCLj1KoAqKF8aosiv0Svc2tYNmbhkH9cMZGn4" -X GET http://localhost:8080/admin/pices/100000024
+curl -H "Authorization:Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJyb2xlcyI6WyJST0xFX1VTRVIiLCJST0xFX0FETUlOIl0sImlhdCI6MTU5MzU5MDk1MywiZXhwIjoxNTk3MTkwOTUzfQ.tDg-X4fCLj1KoAqKF8aosiv0Svc2tYNmbhkH9cMZGn4" -X GET http://localhost:8080/admin/menu/100000024
 Response: JSON AdminPriceTo
 
-**GetAll prices:**
+**GetAll menuItem:**
 
-curl -H "Authorization:Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJyb2xlcyI6WyJST0xFX1VTRVIiLCJST0xFX0FETUlOIl0sImlhdCI6MTU5MzU5MDk1MywiZXhwIjoxNTk3MTkwOTUzfQ.tDg-X4fCLj1KoAqKF8aosiv0Svc2tYNmbhkH9cMZGn4" -X GET http://localhost:8080/admin/prices
+curl -H "Authorization:Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJyb2xlcyI6WyJST0xFX1VTRVIiLCJST0xFX0FETUlOIl0sImlhdCI6MTU5MzU5MDk1MywiZXhwIjoxNTk3MTkwOTUzfQ.tDg-X4fCLj1KoAqKF8aosiv0Svc2tYNmbhkH9cMZGn4" -X GET http://localhost:8080/admin/menu
 Response: JSON List<AdminPriceTo>
 
-**Delete price:**
+**Delete menuItem:**
 
-curl -H "Authorization:Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJyb2xlcyI6WyJST0xFX1VTRVIiLCJST0xFX0FETUlOIl0sImlhdCI6MTU5MzU5MDk1MywiZXhwIjoxNTk3MTkwOTUzfQ.tDg-X4fCLj1KoAqKF8aosiv0Svc2tYNmbhkH9cMZGn4" -X DELETE http://localhost:8080/admin/prices/100000024
+curl -H "Authorization:Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJyb2xlcyI6WyJST0xFX1VTRVIiLCJST0xFX0FETUlOIl0sImlhdCI6MTU5MzU5MDk1MywiZXhwIjoxNTk3MTkwOTUzfQ.tDg-X4fCLj1KoAqKF8aosiv0Svc2tYNmbhkH9cMZGn4" -X DELETE http://localhost:8080/admin/menu/100000024
 Response: HttpStatus.NO_CONTENT
 
-**Save or update (if "id" exists or notNull) price:**
+**Save or update (if "id" exists or notNull) menuItem:**
 
-curl -d '{"id": 100000024, "name": "Borsch"}' -H "Authorization:Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJyb2xlcyI6WyJST0xFX1VTRVIiLCJST0xFX0FETUlOIl0sImlhdCI6MTU5MzU5MDk1MywiZXhwIjoxNTk3MTkwOTUzfQ.tDg-X4fCLj1KoAqKF8aosiv0Svc2tYNmbhkH9cMZGn4" -H "Content-Type: application/json" -X POST http://localhost:8080/admin/prices
+curl -d '{"id": 100000024, "name": "Borsch"}' -H "Authorization:Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJyb2xlcyI6WyJST0xFX1VTRVIiLCJST0xFX0FETUlOIl0sImlhdCI6MTU5MzU5MDk1MywiZXhwIjoxNTk3MTkwOTUzfQ.tDg-X4fCLj1KoAqKF8aosiv0Svc2tYNmbhkH9cMZGn4" -H "Content-Type: application/json" -X POST http://localhost:8080/admin/menu
 Response: HttpStatus.NO_CONTENT
 

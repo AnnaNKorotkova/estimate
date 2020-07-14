@@ -12,16 +12,15 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @NoArgsConstructor
-public class UserPriceTo extends BaseTo {
+public class AdminMenuTo extends BaseTo {
 
     @NotNull
     private LocalDate date;
-
     @NotNull
-    private String dishName;
-
+    private NamedTo restaurant;
+    @NotNull
+    private NamedTo dish;
     @NotNull
     @Positive
-    private BigDecimal dishPrice;
-
+    private BigDecimal price;
 }

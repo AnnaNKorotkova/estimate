@@ -9,10 +9,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import ru.topjava.estimate.exeption.NotFoundException;
 import ru.topjava.estimate.model.Dish;
-import ru.topjava.estimate.model.Price;
+import ru.topjava.estimate.model.MenuItem;
 import ru.topjava.estimate.model.Restaurant;
-import ru.topjava.estimate.repository.PriceRepository;
-import ru.topjava.estimate.service.PriceService;
+import ru.topjava.estimate.repository.MenuItemRepository;
+import ru.topjava.estimate.service.MenuItemService;
 
 import java.time.LocalDate;
 import java.util.Collections;
@@ -23,68 +23,68 @@ import static ru.topjava.estimate.util.ValidationUtil.checkNotFound;
 @Service
 @Slf4j
 @Transactional(readOnly = true)
-public class PriceServiceImpl implements PriceService {
+public class MenuItemServiceImpl implements MenuItemService {
 
     @Autowired
-    private PriceRepository priceRepository;
+    private MenuItemRepository menuItemRepository;
 
     @Override
     @Transactional
-    @CacheEvict(value = "prices", allEntries = true)
-    public Price save(Price price) {
-        Assert.notNull(price, "price must not be null");
-        log.info("save price {}", price.getId());
-        return priceRepository.save(price);
+    @CacheEvict(value = "menuItems", allEntries = true)
+    public MenuItem save(MenuItem menuItem) {
+        Assert.notNull(menuItem, "menuItem must not be null");
+        log.info("save menuItem {}", menuItem.getId());
+        return menuItemRepository.save(menuItem);
     }
 
     @Override
     @Transactional
-    @CacheEvict(value = "prices", allEntries = true)
+    @CacheEvict(value = "menuItems", allEntries = true)
     public void delete(Long id) {
-        Assert.notNull(id, "price id must not be null");
-        log.info("delete price {}", id);
-        priceRepository.deleteById(id);
+        Assert.notNull(id, "menuItem id must not be null");
+        log.info("delete menuItem {}", id);
+        menuItemRepository.deleteById(id);
     }
 
     @Override
-    public Price get(Long id) {
-        Price price = priceRepository.findById(id).orElseThrow(NotFoundException::new);
-        log.info("get price {}", price.getId());
-        return price;
+    public MenuItem get(Long id) {
+        MenuItem menuItem = menuItemRepository.findById(id).orElseThrow(NotFoundException::new);
+        log.info("get menuItem {}", menuItem.getId());
+        return menuItem;
     }
 
     @Override
-    public List<Price> getAll() {
-        List<Price> list = priceRepository.findAll();
+    public List<MenuItem> getAll() {
+        List<MenuItem> list = menuItemRepository.findAll();
         log.info("findAll(), found {} rows", list.size());
         return list;
     }
 
     @Override
-    public Price findByRestaurantAndDishAndDate(Restaurant restaurant, Dish dish, LocalDate date) {
+    public MenuItem findByRestaurantAndDishAndDate(Restaurant restaurant, Dish dish, LocalDate date) {
         Assert.notNull(date, "date must not be null");
         Assert.notNull(dish, "dish must not be null");
         Assert.notNull(restaurant, "restaurant must not be null");
-        Price price = checkNotFound(priceRepository.findByDateAndDishAndRestaurant(date, dish, restaurant),
+        MenuItem menuItem = checkNotFound(menuItemRepository.findByDateAndDishAndRestaurant(date, dish, restaurant),
                 "date = " + date + ", dish = " + dish.getName() + ", restaurant = " + restaurant.getName());
-        log.info("get price {}", price.getId());
-        return price;
+        log.info("get menuItem {}", menuItem.getId());
+        return menuItem;
     }
 
     @Override
-    public List<Price> findAllByRestaurant(Restaurant restaurant) {
+    public List<MenuItem> findAllByRestaurant(Restaurant restaurant) {
         Assert.notNull(restaurant, "restaurant must not be null");
-        List<Price> list = priceRepository.findAllByRestaurant(restaurant);
+        List<MenuItem> list = menuItemRepository.findAllByRestaurant(restaurant);
         log.info("findAllByRestaurant({}), found {} rows", restaurant.getName(), list == null ? 0 : list.size());
         return list == null ? Collections.emptyList() : list;
     }
 
     @Override
-    @Cacheable(value = "prices", key = "#date")
-    public List<Price> findAllByRestaurantAndDate(Restaurant restaurant, LocalDate date) {
+    @Cacheable(value = "menuItems", key = "#date")
+    public List<MenuItem> findAllByRestaurantAndDate(Restaurant restaurant, LocalDate date) {
         Assert.notNull(date, "date must not be null");
         Assert.notNull(restaurant, "restaurant must not be null");
-        List<Price> list = priceRepository.findAllByDateAndRestaurant(date, restaurant);
+        List<MenuItem> list = menuItemRepository.findAllByDateAndRestaurant(date, restaurant);
         log.info("findAllByRestaurant({}, {}), found {} rows", date, restaurant.getName(), list == null ? 0 : list.size());
         return list == null ? Collections.emptyList() : list;
     }

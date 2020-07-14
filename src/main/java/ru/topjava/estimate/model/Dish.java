@@ -20,7 +20,7 @@ public class Dish extends AbstractNamedEntity {
 
     @OneToMany(mappedBy = "dish", fetch = FetchType.LAZY)
     @Cascade(value = org.hibernate.annotations.CascadeType.ALL)
-    private Set<Price> dishPrice;
+    private Set<MenuItem> dishPrice;
 
     public Dish(Long id, String name) {
         super(id, name);

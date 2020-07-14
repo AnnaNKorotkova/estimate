@@ -4,33 +4,33 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import ru.topjava.estimate.mappers.AdminPriceMapper;
-import ru.topjava.estimate.service.PriceService;
-import ru.topjava.estimate.to.AdminPriceTo;
+import ru.topjava.estimate.mappers.AdminMenuMapper;
+import ru.topjava.estimate.service.MenuItemService;
+import ru.topjava.estimate.to.AdminMenuTo;
 
 import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(value = AdminPriceController.URL, produces = MediaType.APPLICATION_JSON_VALUE)
-public class AdminPriceController {
+@RequestMapping(value = AdminMenuController.URL, produces = MediaType.APPLICATION_JSON_VALUE)
+public class AdminMenuController {
 
-    final static String URL = "/admin/prices";
+    final static String URL = "/admin/menu";
 
     @Autowired
-    PriceService service;
+    MenuItemService service;
 
     @GetMapping
-    public List<AdminPriceTo> getAll() {
+    public List<AdminMenuTo> getAll() {
         return service.getAll().stream()
-                .map(AdminPriceMapper.INSTANCE::toDTO)
+                .map(AdminMenuMapper.INSTANCE::toDTO)
                 .collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
-    public AdminPriceTo get(@PathVariable long id) {
-        return AdminPriceMapper.INSTANCE.toDTO(service.get(id));
+    public AdminMenuTo get(@PathVariable long id) {
+        return AdminMenuMapper.INSTANCE.toDTO(service.get(id));
     }
 
     @DeleteMapping("/{id}")
@@ -41,8 +41,8 @@ public class AdminPriceController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void save(@RequestBody @Valid AdminPriceTo priceTo) {
-       service.save(AdminPriceMapper.INSTANCE.fromDTO(priceTo));
+    public void save(@RequestBody @Valid AdminMenuTo priceTo) {
+       service.save(AdminMenuMapper.INSTANCE.fromDTO(priceTo));
     }
 
 }

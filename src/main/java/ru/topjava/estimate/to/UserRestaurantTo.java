@@ -12,13 +12,13 @@ import java.util.Set;
 public class UserRestaurantTo extends NamedTo {
 
 
-    private Set<UserPriceTo> price;
+    private Set<UserMenuItemTo> price;
 
     private int voteCounter;
 
     private boolean hasVoteToday;
 
-    public UserRestaurantTo(Long id, String name, Set<UserPriceTo> price, int voteCounter, boolean hasVoteToday) {
+    public UserRestaurantTo(Long id, String name, Set<UserMenuItemTo> price, int voteCounter, boolean hasVoteToday) {
         super(id, name);
         this.price = price;
         this.voteCounter = voteCounter;

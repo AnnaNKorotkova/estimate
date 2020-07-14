@@ -30,7 +30,7 @@
         <heap unit="entries">100</heap>
     </cache-template>
 
-    <cache alias="prices" uses-template="expiryCachePrices"/>
+    <cache alias="menuItems" uses-template="expiryCachePrices"/>
     <cache alias="votes" uses-template="expiryCacheVotes"/>
     <cache alias="vote" uses-template="expiryCacheVote"/>
     <cache alias="restaurants" uses-template="expiryCacheRestaurants"/>

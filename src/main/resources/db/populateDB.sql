@@ -1,4 +1,4 @@
-DELETE FROM PRICE;
+DELETE FROM MENU_ITEM;
 DELETE FROM RESTAURANT;
 DELETE FROM DISH;
 
@@ -42,7 +42,7 @@ INSERT INTO DISH (name) VALUES
  ('Burger'),                                        -- 100000021
  ('Coffee');                                        -- 100000022
 
-INSERT INTO PRICE (date, restaurant_id, dish_id, price) VALUES
+INSERT INTO MENU_ITEM (date, restaurant_id, dish_id, price) VALUES
 ('2020-06-01', 100000002, 100000005, 2.90),         -- 100000023
 ('2020-06-01', 100000002, 100000006, 8.90),         -- 100000024
 ('2020-06-02', 100000002, 100000007, 8.40),         -- 100000025
